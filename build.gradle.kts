@@ -20,6 +20,10 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter")
+
+    implementation("org.apache.commons:commons-imaging:1.0.0-alpha5")
+    implementation("net.sourceforge.tess4j:tess4j:5.13.0")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }

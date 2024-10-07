@@ -176,3 +176,7 @@ public class IrimoCommand implements Runnable {
     }
 }
 ```
+
+## 8. Low level design
+
+- [nu-colombia-ocr-source-adapter-design.md](nu-colombia-ocr-source-adapter-design.md)
