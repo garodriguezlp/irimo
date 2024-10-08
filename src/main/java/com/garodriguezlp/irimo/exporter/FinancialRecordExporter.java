@@ -1,10 +1,10 @@
 package com.garodriguezlp.irimo.exporter;
 
-import com.garodriguezlp.irimo.domain.FinancialFormattedRecord;
+import com.garodriguezlp.irimo.domain.FormattedFinancialRecord;
 import java.util.List;
 
 public interface FinancialRecordExporter {
 
-  void export(List<FinancialFormattedRecord> financialRecords);
+  void export(List<FormattedFinancialRecord> financialRecords);
 
 }

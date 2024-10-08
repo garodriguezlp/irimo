@@ -1,6 +1,6 @@
 package com.garodriguezlp.irimo.exporter;
 
-import com.garodriguezlp.irimo.domain.FinancialFormattedRecord;
+import com.garodriguezlp.irimo.domain.FormattedFinancialRecord;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,11 +25,11 @@ class ClipboardCSVFinancialRecordExporterTest {
   void testExport() throws IOException, UnsupportedFlavorException {
     // given
     var records = List.of(
-        new FinancialFormattedRecord("12/9/2023", "COMPRA EN  MERCADOPAG", "278500.00",
+        new FormattedFinancialRecord("12/9/2023", "COMPRA EN  MERCADOPAG", "278500.00",
             "Bancolombia"),
-        new FinancialFormattedRecord("12/10/2023", "COMPRA EN  MERCADO PA", "170000.00",
+        new FormattedFinancialRecord("12/10/2023", "COMPRA EN  MERCADO PA", "170000.00",
             "Bancolombia"),
-        new FinancialFormattedRecord("12/10/2023", "COMPRA EN  TIENDA D1", "67910.00",
+        new FormattedFinancialRecord("12/10/2023", "COMPRA EN  TIENDA D1", "67910.00",
             "Bancolombia"));
 
     // when

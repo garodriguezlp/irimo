@@ -2,7 +2,7 @@ package com.garodriguezlp.irimo.exporter;
 
 import static org.apache.commons.csv.CSVFormat.TDF;
 
-import com.garodriguezlp.irimo.domain.FinancialFormattedRecord;
+import com.garodriguezlp.irimo.domain.FormattedFinancialRecord;
 import com.garodriguezlp.irimo.exporter.exception.ExporterException;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -21,7 +21,7 @@ public class ClipboardCSVFinancialRecordExporter implements FinancialRecordExpor
   private static final Logger LOGGER = LoggerFactory.getLogger(ClipboardCSVFinancialRecordExporter.class);
 
   @Override
-  public void export(List<FinancialFormattedRecord> financialRecords) {
+  public void export(List<FormattedFinancialRecord> financialRecords) {
     LOGGER.info("Starting export of {} financial records to clipboard", financialRecords.size());
     try {
       String csvData = convertRecordsToCSV(financialRecords);
@@ -33,11 +33,11 @@ public class ClipboardCSVFinancialRecordExporter implements FinancialRecordExpor
     }
   }
 
-  private String convertRecordsToCSV(List<FinancialFormattedRecord> records) throws IOException {
+  private String convertRecordsToCSV(List<FormattedFinancialRecord> records) throws IOException {
     LOGGER.debug("Converting {} records to CSV format", records.size());
     try (StringWriter writer = new StringWriter();
         CSVPrinter printer = new CSVPrinter(writer, TDF)) {
-      for (FinancialFormattedRecord record : records) {
+      for (FormattedFinancialRecord record : records) {
         printer.printRecord(
             record.date(),
             record.description(),

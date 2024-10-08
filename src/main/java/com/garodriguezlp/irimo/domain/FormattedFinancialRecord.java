@@ -1,6 +1,6 @@
 package com.garodriguezlp.irimo.domain;
 
-public record FinancialFormattedRecord(
+public record FormattedFinancialRecord(
     String date,
     String description,
     String amount,
