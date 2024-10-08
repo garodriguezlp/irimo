@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class SpanishTess4JOcrProcessor implements OcrProcessor {
 
-  private static final Logger logger = LoggerFactory.getLogger(SpanishTess4JOcrProcessor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SpanishTess4JOcrProcessor.class);
   private static final String TESSDATA_RESOURCE_PATH = "tessdata";
 
   private final Tesseract tesseract;
@@ -25,10 +25,10 @@ public class SpanishTess4JOcrProcessor implements OcrProcessor {
 
   @Override
   public String performOcr(BufferedImage image) {
-    logger.info("Starting OCR process on the provided image");
+    LOGGER.info("Starting OCR process on the provided image");
     try {
       String result = tesseract.doOCR(image);
-      logger.info("OCR process completed successfully");
+      LOGGER.info("OCR process completed successfully");
       return result;
     } catch (TesseractException e) {
       throw new OcrProcessingException("OCR process failed", e);

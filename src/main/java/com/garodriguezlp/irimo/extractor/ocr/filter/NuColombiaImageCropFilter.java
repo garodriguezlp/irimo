@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class NuColombiaImageCropFilter implements ImageFilter {
 
-  private static final Logger logger = LoggerFactory.getLogger(NuColombiaImageCropFilter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(NuColombiaImageCropFilter.class);
   private static final double CROP_PERCENTAGE = 0.18;
 
   @Override
   public BufferedImage apply(BufferedImage image) {
     try {
-      logger.info("Applying NuColombiaImageCropFilter");
+      LOGGER.info("Applying NuColombiaImageCropFilter");
       BufferedImage imageCopy = copyImage(image);
       ImageDimensions dimensions = calculateDimensions(imageCopy);
       return crop(imageCopy, dimensions);
@@ -41,7 +41,7 @@ public class NuColombiaImageCropFilter implements ImageFilter {
         newWidth);
 
     if (dimensions.newWidth() <= 0) {
-      logger.error("Crop percentage is too large. The resulting image would have no width.");
+      LOGGER.error("Crop percentage is too large. The resulting image would have no width.");
       throw new IllegalArgumentException(
           "Crop percentage is too large. The resulting image would have no width.");
     }
@@ -50,7 +50,7 @@ public class NuColombiaImageCropFilter implements ImageFilter {
   }
 
   private BufferedImage crop(BufferedImage copyImage, ImageDimensions dimensions) {
-    logger.debug("Cropping image from left to right");
+    LOGGER.debug("Cropping image from left to right");
     BufferedImage result = copyImage.getSubimage(
         dimensions.cropWidth(),
         0,

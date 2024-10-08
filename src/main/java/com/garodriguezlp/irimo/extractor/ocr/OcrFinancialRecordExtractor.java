@@ -23,7 +23,7 @@ import java.util.stream.Stream;
 
 public class OcrFinancialRecordExtractor implements FinancialRecordExtractor {
 
-  private static final Logger logger = LoggerFactory.getLogger(OcrFinancialRecordExtractor.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(OcrFinancialRecordExtractor.class);
 
   private final ImageFilterPipeline imageFilterPipeline;
   private final OcrProcessor ocrProcessor;
@@ -40,7 +40,7 @@ public class OcrFinancialRecordExtractor implements FinancialRecordExtractor {
 
   @Override
   public List<FinancialRecord> extract(File dataDirectory) {
-    logger.info("Starting extraction from directory: {}", dataDirectory.getAbsolutePath());
+    LOGGER.info("Starting extraction from directory: {}", dataDirectory.getAbsolutePath());
 
     return Stream.of(Objects.requireNonNull(dataDirectory.listFiles()))
         .filter(File::isFile)
@@ -50,7 +50,7 @@ public class OcrFinancialRecordExtractor implements FinancialRecordExtractor {
   }
 
   private List<FinancialRecord> processImageAndExtractRecords(File imageFile) {
-    logger.info("Processing image file: {}", imageFile.getName());
+    LOGGER.info("Processing image file: {}", imageFile.getName());
 
     try {
       BufferedImage image = ImageIO.read(imageFile);
@@ -58,17 +58,17 @@ public class OcrFinancialRecordExtractor implements FinancialRecordExtractor {
       String ocrText = ocrProcessor.performOcr(filteredImage);
       List<FinancialRecord> records = financialRecordParser.extractRecords(ocrText);
 
-      logger.info("Successfully processed {} and extracted {} records",
+      LOGGER.info("Successfully processed {} and extracted {} records",
           imageFile.getName(), records.size());
       return records;
     } catch (IOException |
              ImageFilteringException |
              OcrProcessingException |
              FinancialRecordParsingException e) {
-      logger.error("Error processing file {}: {}", imageFile.getName(), e.getMessage(), e);
+      LOGGER.error("Error processing file {}: {}", imageFile.getName(), e.getMessage(), e);
       return emptyList();
     } catch (Exception e) {
-      logger.error("Unexpected error while processing image file: {}", imageFile.getName(), e);
+      LOGGER.error("Unexpected error while processing image file: {}", imageFile.getName(), e);
       return emptyList();
     }
   }
