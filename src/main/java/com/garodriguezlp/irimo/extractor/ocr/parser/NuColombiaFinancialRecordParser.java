@@ -35,7 +35,7 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
   @Override
   public List<FinancialRecord> extractRecords(String input) {
     try {
-      LOGGER.info("Parsing {} OCR data", SOURCE);
+      LOGGER.debug("Parsing {} OCR data", SOURCE);
       String sanitizedInput = sanitizeInput(input);
       List<List<String>> rawRecords = breakIntoChunks(sanitizedInput);
       return rawRecords.stream()

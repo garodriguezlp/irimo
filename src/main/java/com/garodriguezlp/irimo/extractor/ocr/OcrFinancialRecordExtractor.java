@@ -37,7 +37,7 @@ public abstract class OcrFinancialRecordExtractor implements FinancialRecordExtr
 
   @Override
   public List<FinancialRecord> extract(List<File> recordSources) {
-    LOGGER.info("Starting extraction from {} source documents", recordSources.size());
+    LOGGER.debug("Starting extraction from {} source documents", recordSources.size());
 
     return recordSources.stream()
         .filter(File::isFile)
@@ -47,7 +47,7 @@ public abstract class OcrFinancialRecordExtractor implements FinancialRecordExtr
   }
 
   private List<FinancialRecord> processImageAndExtractRecords(File imageFile) {
-    LOGGER.info("Processing image file: {}", imageFile.getName());
+    LOGGER.info("Processing image: {}", imageFile.getName());
 
     try {
       BufferedImage image = ImageIO.read(imageFile);
@@ -55,7 +55,7 @@ public abstract class OcrFinancialRecordExtractor implements FinancialRecordExtr
       String ocrText = ocrProcessor.performOcr(filteredImage);
       List<FinancialRecord> records = financialRecordParser.extractRecords(ocrText);
 
-      LOGGER.info("Successfully processed {} and extracted {} records",
+      LOGGER.debug("Successfully processed {} and extracted {} records",
           imageFile.getName(), records.size());
       return records;
     } catch (IOException |

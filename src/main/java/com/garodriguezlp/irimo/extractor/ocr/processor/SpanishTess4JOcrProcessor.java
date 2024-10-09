@@ -25,10 +25,10 @@ public class SpanishTess4JOcrProcessor implements OcrProcessor {
 
   @Override
   public String performOcr(BufferedImage image) {
-    LOGGER.info("Starting OCR process on the provided image");
+    LOGGER.info("Starting OCR process");
     try {
       String result = tesseract.doOCR(image);
-      LOGGER.info("OCR process completed successfully");
+      LOGGER.debug("OCR process completed successfully");
       return result;
     } catch (TesseractException e) {
       throw new OcrProcessingException("OCR process failed", e);

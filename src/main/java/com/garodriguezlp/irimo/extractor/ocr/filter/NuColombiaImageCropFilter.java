@@ -15,7 +15,7 @@ public class NuColombiaImageCropFilter implements ImageFilter {
   @Override
   public BufferedImage apply(BufferedImage image) {
     try {
-      LOGGER.info("Applying NuColombiaImageCropFilter");
+      LOGGER.debug("Applying NuColombiaImageCropFilter");
       BufferedImage imageCopy = copyImage(image);
       ImageDimensions dimensions = calculateDimensions(imageCopy);
       return crop(imageCopy, dimensions);

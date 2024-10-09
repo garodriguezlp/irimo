@@ -27,11 +27,11 @@ public class ClipboardCSVFinancialRecordExporter implements FinancialRecordExpor
 
   @Override
   public void export(List<FormattedFinancialRecord> financialRecords) {
-    LOGGER.info("Starting export of {} financial records to clipboard", financialRecords.size());
+    LOGGER.debug("Starting export of {} financial records to clipboard", financialRecords.size());
     try {
       String csvData = convertRecordsToCSV(financialRecords);
       clipboard.copy(csvData);
-      LOGGER.info("Successfully exported financial records to clipboard");
+      LOGGER.debug("Successfully exported financial records to clipboard");
     } catch (Exception e) {
       LOGGER.error("Failed to export financial records", e);
       throw new ExporterException("Failed to export financial records", e);

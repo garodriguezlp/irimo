@@ -17,13 +17,13 @@ public class ImageFilterPipeline {
   }
 
   public BufferedImage execute(BufferedImage image) {
-    LOGGER.info("Starting image filtering pipeline with {} filters", filters.size());
+    LOGGER.debug("Starting image filtering pipeline with {} filters", filters.size());
     BufferedImage processedImage = image;
     for (ImageFilter filter : filters) {
-      LOGGER.info("Applying filter: {}", filter.getClass().getSimpleName());
+      LOGGER.info("Applying image filter: {}", filter.getClass().getSimpleName());
       processedImage = filter.apply(processedImage);
     }
-    LOGGER.info("Image filtering pipeline completed");
+    LOGGER.debug("Image filtering pipeline completed");
     return processedImage;
   }
 }

@@ -5,12 +5,21 @@ import java.io.File;
 import java.util.List;
 import java.util.concurrent.Callable;
 import org.springframework.stereotype.Component;
+import picocli.AutoComplete.GenerateCompletion;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 @Component
-@Command(name = "irimo", description = "Process and export financial records")
+@Command(
+    name = "irimo",
+    description = "Consolidates personal financial data for better decision-making.",
+    mixinStandardHelpOptions = true,
+    versionProvider = VersionProvider.class,
+    subcommands = {
+        GenerateCompletion.class
+    }
+)
 public class IrimoCommand implements Callable<Integer> {
 
   private final FinancialRecordsConsolidationService service;

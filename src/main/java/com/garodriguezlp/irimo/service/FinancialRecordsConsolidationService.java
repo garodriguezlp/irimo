@@ -31,8 +31,7 @@ public class FinancialRecordsConsolidationService {
   }
 
   public void processRecords(List<File> files, String sourceId, String targetId) {
-    LOGGER.info("Starting consolidation and export process for source: {} and target: {}", sourceId,
-        targetId);
+    LOGGER.info("Starting consolidation and export process: {} -> {}", sourceId, targetId);
 
     try {
       List<FinancialRecord> records = extractRecords(files, sourceId);

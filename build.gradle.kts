@@ -34,6 +34,12 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks.named<ProcessResources>("processResources") {
+    filesMatching("**/application.yml") {
+        expand(project.properties)
+    }
+}
+
 publishing {
     publications {
         create<MavenPublication>("bootJava") {
