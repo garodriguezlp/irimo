@@ -24,6 +24,7 @@ dependencies {
     implementation("org.apache.commons:commons-imaging:1.0.0-alpha5")
     implementation("net.sourceforge.tess4j:tess4j:5.13.0")
     implementation("org.apache.commons:commons-csv:1.12.0")
+    implementation("info.picocli:picocli-spring-boot-starter:4.7.6")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
