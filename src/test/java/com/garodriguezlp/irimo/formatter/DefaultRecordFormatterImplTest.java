@@ -33,21 +33,21 @@ class DefaultRecordFormatterImplTest {
   private static List<FinancialRecord> buildInputRecords() {
     return List.of(
         new FinancialRecord(LocalDate.parse("2024-10-02"),
-            "Agregaste dinero a Home Online Services", new BigDecimal("102500.00"), "Nu Colombia"),
+            "Agregaste dinero a Home Online Services", new BigDecimal("102500.00"), "Nu"),
         new FinancialRecord(LocalDate.parse("2024-09-30"), "Recibiste de Bancolombia",
-            new BigDecimal("7459949.00"), "Nu Colombia"),
+            new BigDecimal("7459949.00"), "Nu"),
         new FinancialRecord(LocalDate.parse("2024-09-22"),
-            "Agregaste dinero a Home Online Services", new BigDecimal("102500.00"), "Nu Colombia"));
+            "Agregaste dinero a Home Online Services", new BigDecimal("102500.00"), "Nu"));
   }
 
   private List<FormattedFinancialRecord> expectedRecords() {
     return List.of(
         new FormattedFinancialRecord("10/02/2024", "Agregaste dinero a Home Online Services",
-            "$102,500.00", "Nu Colombia"),
+            "$102,500.00", "Nu"),
         new FormattedFinancialRecord("09/30/2024", "Recibiste de Bancolombia", "$7,459,949.00",
-            "Nu Colombia"),
+            "Nu"),
         new FormattedFinancialRecord("09/22/2024", "Agregaste dinero a Home Online Services",
-            "$102,500.00", "Nu Colombia")
+            "$102,500.00", "Nu")
     );
   }
 }

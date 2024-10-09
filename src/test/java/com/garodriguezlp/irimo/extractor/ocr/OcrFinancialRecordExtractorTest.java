@@ -19,10 +19,10 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import javax.imageio.ImageIO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.io.TempDir;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -36,14 +36,24 @@ class OcrFinancialRecordExtractorTest {
   @Mock
   private FinancialRecordParser financialRecordParser;
 
-  @InjectMocks
   private OcrFinancialRecordExtractor financialRecordExtractor;
+
+  @BeforeEach
+  void setUp() {
+    financialRecordExtractor = new OcrFinancialRecordExtractor(imageFilterPipeline, ocrProcessor,
+        financialRecordParser) {
+      @Override
+      public String getIdentifier() {
+        return "test";
+      }
+    };
+  }
 
   @Test
   void testExtract(@TempDir Path tempDir) throws IOException {
     // given
-    createTestImage(tempDir.resolve("image1.jpeg"));
-    createTestImage(tempDir.resolve("image2.jpeg"));
+    File image1 = createTestImageFile(tempDir, "image1.jpeg");
+    File image2 = createTestImageFile(tempDir, "image2.jpeg");
     BufferedImage filteredImage = mock(BufferedImage.class);
 
     when(imageFilterPipeline.execute(any(BufferedImage.class))).thenReturn(filteredImage);
@@ -52,7 +62,7 @@ class OcrFinancialRecordExtractorTest {
     when(financialRecordParser.extractRecords("mocked OCR text")).thenReturn(List.of(mockRecord));
 
     // when
-    List<FinancialRecord> records = financialRecordExtractor.extract(tempDir.toFile());
+    List<FinancialRecord> records = financialRecordExtractor.extract(List.of(image1, image2));
 
     // then
     assertThat(records).hasSize(2);
@@ -61,16 +71,20 @@ class OcrFinancialRecordExtractorTest {
     verify(financialRecordParser, times(2)).extractRecords("mocked OCR text");
   }
 
-  private File createTestImage(Path path) throws IOException {
+  private File createTestImageFile(Path directory, String fileName) throws IOException {
+    Path imagePath = directory.resolve(fileName);
     BufferedImage image = new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB);
     Graphics2D g2d = image.createGraphics();
-    g2d.setColor(Color.WHITE);
-    g2d.fillRect(0, 0, 100, 100);
-    g2d.setColor(Color.BLACK);
-    g2d.drawString("Test", 10, 50);
-    g2d.dispose();
+    try {
+      g2d.setColor(Color.WHITE);
+      g2d.fillRect(0, 0, 100, 100);
+      g2d.setColor(Color.BLACK);
+      g2d.drawString("Test", 10, 50);
+    } finally {
+      g2d.dispose();
+    }
 
-    File imageFile = path.toFile();
+    File imageFile = imagePath.toFile();
     ImageIO.write(image, "jpg", imageFile);
     return imageFile;
   }

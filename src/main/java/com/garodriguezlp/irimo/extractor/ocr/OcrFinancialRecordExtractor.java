@@ -4,24 +4,21 @@ import static java.util.Collections.emptyList;
 
 import com.garodriguezlp.irimo.domain.FinancialRecord;
 import com.garodriguezlp.irimo.extractor.FinancialRecordExtractor;
-import com.garodriguezlp.irimo.extractor.ocr.exception.ImageFilteringException;
 import com.garodriguezlp.irimo.extractor.ocr.exception.FinancialRecordParsingException;
+import com.garodriguezlp.irimo.extractor.ocr.exception.ImageFilteringException;
 import com.garodriguezlp.irimo.extractor.ocr.exception.OcrProcessingException;
 import com.garodriguezlp.irimo.extractor.ocr.filter.ImageFilterPipeline;
 import com.garodriguezlp.irimo.extractor.ocr.parser.FinancialRecordParser;
 import com.garodriguezlp.irimo.extractor.ocr.processor.OcrProcessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Stream;
+import javax.imageio.ImageIO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class OcrFinancialRecordExtractor implements FinancialRecordExtractor {
+public abstract class OcrFinancialRecordExtractor implements FinancialRecordExtractor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(OcrFinancialRecordExtractor.class);
 
@@ -39,10 +36,10 @@ public class OcrFinancialRecordExtractor implements FinancialRecordExtractor {
   }
 
   @Override
-  public List<FinancialRecord> extract(File dataDirectory) {
-    LOGGER.info("Starting extraction from directory: {}", dataDirectory.getAbsolutePath());
+  public List<FinancialRecord> extract(List<File> recordSources) {
+    LOGGER.info("Starting extraction from {} source documents", recordSources.size());
 
-    return Stream.of(Objects.requireNonNull(dataDirectory.listFiles()))
+    return recordSources.stream()
         .filter(File::isFile)
         .map(this::processImageAndExtractRecords)
         .flatMap(List::stream)

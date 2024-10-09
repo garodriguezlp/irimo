@@ -1,51 +1,37 @@
-package com.garodriguezlp.irimo.extractor.ocr.parser;
+package com.garodriguezlp.irimo.extractor.ocr;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.garodriguezlp.irimo.domain.FinancialRecord;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 
-class NuColombiaFinancialRecordParserTest {
+@SpringBootTest
+class NuColombiaOcrFinancialRecordExtractorTest {
 
-  private NuColombiaFinancialRecordParser parser;
+  private static final String INPUT_IMAGE = "nu_colombia_input.jpeg";
 
-  @BeforeEach
-  void setUp() {
-    parser = new NuColombiaFinancialRecordParser();
-  }
+  @Autowired
+  private OcrFinancialRecordExtractor nuColombiaOcrFinancialRecordExtractor;
+
+  @Autowired
+  private ResourceLoader resourceLoader;
 
   @Test
-  void testExtractRecords() {
+  void testExtractFinancialRecords() throws IOException {
     // given
-    String ocrText = """
-        Buscar movimiento
-        Agregaste dinero a +$102.500,00
-        Home Online Services
-        02 oct - 22:12
-        Recibiste de +$7.459.949,00
-        Bancolombia
-        30 sep - 09:44
-        Agregaste dinero a +$102.500,00
-        Home Online Services
-        22 sep - 09:29
-        Agregaste dineroa + +$1.000.000,00
-        foo
-        14 sep - 18:35
-        Agregaste dineroa + +$1.000.000,00
-        Mi primera Cajita
-        14 sep - 18:35
-        Recibiste de +$5.115.298,00
-        Bancolombia
-        13 sep - 17:19
-        Agregaste dineroa  +$1.000.000,00
-        """;
+    File image = getInputImageFileFromResources(INPUT_IMAGE);
 
     // when
-    List<FinancialRecord> records = parser.extractRecords(ocrText);
+    List<FinancialRecord> records = nuColombiaOcrFinancialRecordExtractor.extract(List.of(image));
 
     // then
     assertThat(records)
@@ -58,4 +44,9 @@ class NuColombiaFinancialRecordParserTest {
             new FinancialRecord(LocalDate.parse("2024-09-14"), "Agregaste dineroa Mi primera Cajita", new BigDecimal("1000000.00"), "Nu"),
             new FinancialRecord(LocalDate.parse("2024-09-13"), "Recibiste de Bancolombia", new BigDecimal("5115298.00"), "Nu"));
   }
+
+  private File getInputImageFileFromResources(String inputImage) throws IOException {
+    return resourceLoader.getResource("classpath:" + inputImage).getFile();
+  }
+
 }

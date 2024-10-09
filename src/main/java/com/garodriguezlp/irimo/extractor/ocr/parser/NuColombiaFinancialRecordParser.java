@@ -21,7 +21,7 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
   private static final Logger LOGGER = LoggerFactory.getLogger(
       NuColombiaFinancialRecordParser.class);
 
-  private static final String SOURCE = "Nu Colombia";
+  private static final String SOURCE = "Nu";
   private static final Pattern AMOUNT_PATTERN = Pattern.compile("([+-]\\$[\\d.,]+)");
   private static final Pattern DATE_PATTERN = Pattern.compile(
       "(\\d{2} [a-z]{3}) - (\\d{2}:\\d{2})");

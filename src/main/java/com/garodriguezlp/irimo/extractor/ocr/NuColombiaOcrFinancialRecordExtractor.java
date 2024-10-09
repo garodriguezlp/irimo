@@ -1,27 +1,28 @@
-package com.garodriguezlp.irimo.extractor.ocr.config;
+package com.garodriguezlp.irimo.extractor.ocr;
 
-import com.garodriguezlp.irimo.extractor.ocr.OcrFinancialRecordExtractor;
+
 import com.garodriguezlp.irimo.extractor.ocr.filter.ImageFilter;
 import com.garodriguezlp.irimo.extractor.ocr.filter.ImageFilterPipeline;
 import com.garodriguezlp.irimo.extractor.ocr.parser.FinancialRecordParser;
 import com.garodriguezlp.irimo.extractor.ocr.processor.OcrProcessor;
 import java.util.List;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
-@Configuration
-public class OcrExtractorsConfig {
+@Service
+public class NuColombiaOcrFinancialRecordExtractor extends OcrFinancialRecordExtractor {
 
-  @Bean
-  public OcrFinancialRecordExtractor nuColombiaOcrFinancialRecordExtractor(
+  public NuColombiaOcrFinancialRecordExtractor(
       ImageFilter nuColombiaImageCropFilter,
       OcrProcessor spanishOcrProcessor,
       FinancialRecordParser nuColombiaFinancialRecordParser) {
-    return new OcrFinancialRecordExtractor(
+    super(
         new ImageFilterPipeline(List.of(nuColombiaImageCropFilter)),
         spanishOcrProcessor,
-        nuColombiaFinancialRecordParser
-    );
+        nuColombiaFinancialRecordParser);
   }
 
+  @Override
+  public String getIdentifier() {
+    return "nu";
+  }
 }

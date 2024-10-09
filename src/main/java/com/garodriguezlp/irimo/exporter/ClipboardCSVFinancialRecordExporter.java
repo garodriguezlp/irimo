@@ -3,10 +3,8 @@ package com.garodriguezlp.irimo.exporter;
 import static org.apache.commons.csv.CSVFormat.TDF;
 
 import com.garodriguezlp.irimo.domain.FormattedFinancialRecord;
+import com.garodriguezlp.irimo.exporter.clipboard.ClipboardService;
 import com.garodriguezlp.irimo.exporter.exception.ExporterException;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
@@ -18,19 +16,31 @@ import org.springframework.stereotype.Service;
 @Service
 public class ClipboardCSVFinancialRecordExporter implements FinancialRecordExporter {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(ClipboardCSVFinancialRecordExporter.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(
+      ClipboardCSVFinancialRecordExporter.class);
+
+  private final ClipboardService clipboard;
+
+  public ClipboardCSVFinancialRecordExporter(ClipboardService clipboard) {
+    this.clipboard = clipboard;
+  }
 
   @Override
   public void export(List<FormattedFinancialRecord> financialRecords) {
     LOGGER.info("Starting export of {} financial records to clipboard", financialRecords.size());
     try {
       String csvData = convertRecordsToCSV(financialRecords);
-      copyToClipboard(csvData);
+      clipboard.copy(csvData);
       LOGGER.info("Successfully exported financial records to clipboard");
     } catch (Exception e) {
       LOGGER.error("Failed to export financial records", e);
       throw new ExporterException("Failed to export financial records", e);
     }
+  }
+
+  @Override
+  public String getIdentifier() {
+    return "clipboard";
   }
 
   private String convertRecordsToCSV(List<FormattedFinancialRecord> records) throws IOException {
@@ -47,12 +57,5 @@ public class ClipboardCSVFinancialRecordExporter implements FinancialRecordExpor
       }
       return writer.toString();
     }
-  }
-
-  private void copyToClipboard(String data) {
-    LOGGER.debug("Copying data to clipboard");
-    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-    StringSelection selection = new StringSelection(data);
-    clipboard.setContents(selection, null);
   }
 }
