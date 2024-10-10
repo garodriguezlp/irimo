@@ -18,7 +18,7 @@ import org.springframework.core.io.ResourceLoader;
 @SpringBootTest
 class FinancialRecordsConsolidationServiceTest {
 
-  private static final String INPUT_IMAGE = "nu_colombia_input.jpeg";
+  private static final String INPUT_IMAGE = "nu_colombia.jpeg";
 
   @Autowired
   private FinancialRecordsConsolidationService service;

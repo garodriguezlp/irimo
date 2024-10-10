@@ -11,5 +11,9 @@ public class ImageCropFilterConfig {
     return new ImageCropFilter(0.18, 0.2); // Example values, adjust as needed
   }
 
+  @Bean
+  public ImageFilter rappiColombiaImageCropFilter() {
+    return new ImageCropFilter(0.19, 0.19); // Example values, adjust as needed
+  }
 
 }

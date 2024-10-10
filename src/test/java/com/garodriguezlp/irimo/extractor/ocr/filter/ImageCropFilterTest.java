@@ -12,7 +12,7 @@ class ImageCropFilterTest {
   @Test
   void testApplyShouldCropImageCorrectly() throws IOException {
     // given
-    BufferedImage inputImage = loadImageFromClasspath("/nu_colombia_input.jpeg");
+    BufferedImage inputImage = loadImageFromClasspath("/nu_colombia.jpeg");
     BufferedImage expectedCroppedImage = loadImageFromClasspath("/nu_colombia_cropped.jpeg");
 
     // when

@@ -17,7 +17,7 @@ import org.springframework.core.io.ResourceLoader;
 @SpringBootTest
 class NuColombiaOcrFinancialRecordExtractorTest {
 
-  private static final String INPUT_IMAGE = "nu_colombia_input.jpeg";
+  private static final String INPUT_IMAGE = "nu_colombia.jpeg";
 
   @Autowired
   private OcrFinancialRecordExtractor nuColombiaOcrFinancialRecordExtractor;
