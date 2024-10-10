@@ -18,9 +18,43 @@ class SpanishTess4JOcrProcessorTest {
   }
 
   @Test
-  void testPerformOcr() throws IOException {
+  void testPerformOcrOnNuImage() throws IOException {
     // given
     BufferedImage image = loadImageFromClasspath("/nu_colombia_cropped.jpeg");
+
+    // when
+    String result = processor.performOcr(image);
+
+    // then
+    assertThat(result)
+        .isNotBlank()
+        .contains("""
+            Buscar movimiento
+            Agregaste dinero a +$102.500,00
+            Home Online Services
+            02 oct - 22:12
+            Recibiste de +$7.459.949,00
+            Bancolombia
+            30 sep - 09:44
+            Agregaste dinero a +$102.500,00
+            Home Online Services
+            22 sep - 09:29
+            Agregaste dineroa + +$1.000.000,00
+            foo
+            14 sep - 18:35
+            Agregaste dineroa + +$1.000.000,00
+            Mi primera Cajita
+            14 sep - 18:35
+            Recibiste de +$5.115.298,00
+            Bancolombia
+            13 sep - 17:19
+            Agregaste dineroa  +$1.000.000,00""");
+  }
+
+  @Test
+  void testPerformOcrOnRappiImage() throws IOException {
+    // given
+    BufferedImage image = loadImageFromClasspath("/rappi_colombia_cropped.jpeg");
 
     // when
     String result = processor.performOcr(image);
