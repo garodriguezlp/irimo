@@ -41,6 +41,10 @@ public class SpanishTess4JOcrProcessor implements OcrProcessor {
     File tessDataFolder = LoadLibs.extractTessResources(TESSDATA_RESOURCE_PATH);
     tesseract.setDatapath(tessDataFolder.getPath());
     tesseract.setLanguage("spa");
+    // net.sourceforge.tess4j.ITessAPI.TessPageSegMode
+//    tesseract.setPageSegMode(4);
+//    tesseract.setVariable("tessedit_char_whitelist", "0123456789.$");
+//    tesseract.setVariable("tessedit_char_blacklist", "%;]");
   }
 
   private String sanitizeOutput(String ocrOutput) {

@@ -180,3 +180,7 @@ public class IrimoCommand implements Runnable {
 ## 8. Low level design
 
 - [nu-colombia-ocr-source-adapter-design.md](nu-colombia-ocr-source-adapter-design.md)
+
+## Improving OCR
+
+- [tweaking-tess4j-for-better-results.md](tweaking-tess4j-for-better-results.md)
