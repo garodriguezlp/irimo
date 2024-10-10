@@ -6,7 +6,7 @@ project:
     - Gustavo Rodriguez
   license: AGPL-3.0-only
   java:
-    groupId: com.garodriguezlp.irimo
+    groupId: com.garodriguezlp
     version: 17
     mainClass: org.springframework.boot.loader.launch.JarLauncher
     multiProject: false
@@ -39,3 +39,17 @@ release:
   github:
     skipRelease: false
     skipTag: false
+    username: garodriguezlp
+
+deploy:
+  maven:
+    pomchecker:
+      failOnError: true
+      failOnWarning: true
+    github:
+      app:
+        active: ALWAYS
+        url: https://maven.pkg.github.com/garodriguezlp/irimo
+        username: garodriguezlp
+        stagingRepositories:
+          - build/staging-deploy

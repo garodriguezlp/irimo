@@ -46,4 +46,10 @@ publishing {
             artifact(tasks.named("bootJar"))
         }
     }
+    repositories {
+        maven {
+            name = "stagingLocal"
+            url = uri(layout.buildDirectory.dir("staging-deploy").get().asFile)
+        }
+    }
 }
