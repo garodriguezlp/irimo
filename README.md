@@ -28,6 +28,27 @@ Named after "Irimo" by Dimensión Latina, featuring Oscar D'León (
 - **Clipboard Convenience**: Quick access to consolidated data via clipboard
 - **Google Sheets Integration** (Future Feature): Direct integration with Google Sheets
 
+## Quick Start
+
+Want to give `irimo` a try? Currently, only `jbang` is supported for quick installation.
+
+### Prerequisites
+
+1. Install jbang (see [jbang installation instructions](https://www.jbang.dev/documentation/guide/latest/installation.html))
+
+### Installation
+
+```bash
+jbang app install irimo@garodriguezlp
+```
+
+> **Note:** `irimo` has been tested only on macOS with M1 chip. It might work on Windows, but this is untested.
+> Due to Tesseract dependencies, it may not work on most Unix environments without additional setup.
+> Learn more about Tesseract compatibility [here](https://tess4j.sourceforge.net/usage.html).
+>
+> Required libraries are embedded for macOS (M1). For Windows and other environments, additional
+> setup may be necessary.
+
 ## Tech Stack
 
 `irimo` leverages a robust set of technologies:
