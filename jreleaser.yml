@@ -1,6 +1,6 @@
 project:
   name: irimo
-  version: 0.0.1-SNAPSHOT
+  version: 0.0.1
   description: CLI tool for transforming personal financial data
   authors:
     - Gustavo Rodriguez
@@ -37,5 +37,5 @@ packagers:
 
 release:
   github:
-    skipRelease: true
-    skipTag: true
+    skipRelease: false
+    skipTag: false
