@@ -29,6 +29,7 @@ class SpanishTess4JOcrProcessorTest {
     assertThat(result)
         .isNotBlank()
         .contains("""
+            Buscar movimiento
             Agregaste dinero a +$102.500,00
             Home Online Services
             02 oct - 22:12
