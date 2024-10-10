@@ -1,19 +1,31 @@
 # `irimo`
 
-`irimo` is a CLI tool that consolidates and transforms personal financial data from various
-institutions, providing a comprehensive view for better financial decision-making.
+`irimo` is a CLI tool that extracts, transforms, and shapes personal financial data from various
+institutions, facilitating later consolidation and analysis to enhance financial decision-making.
 
 ## What is `irimo`?
 
-A personal project to centralize financial data management across multiple institutions, overcoming
-limitations of platforms without easy data export options.
+A personal project tackling the challenge of centralizing financial data from institutions with
+limited export capabilities.
+
+Current focus:
+- Nu Colombia savings account (OCR data extraction from mobile app screenshots)
+
+Future vision:
+- Rappi Pay credit card (Colombia, OCR)
+- PeoplePass (Colombia, OCR)
+- Bancolombia (Colombia, CSV)
 
 ## Why `irimo`?
 
-- Gathers transactions from various financial institutions
-- Handles data extraction, even without direct export
-- Consolidates information efficiently
-- Provides quick access to aggregated data
+As someone who values financial control, I needed a solution to consolidate information from various
+institutions. With many mobile banking apps lacking data extraction features, OCR became the go-to
+method.
+
+`irimo` is my attempt to create a streamlined tool for extracting and shaping financial data. Future
+plans include integrating with Google Docs spreadsheets for comprehensive tracking and analysis.
+
+Let's see how far we can take this project!
 
 ## Name Origin
 
@@ -64,10 +76,6 @@ jbang app install irimo@garodriguezlp
 For design insights, check [design notes](notes/design.md). Distribution options include jreleaser
 and jbang support, with Docker encapsulation being considered.
 See [jreleaser notes](notes/jreleaser.md) for details.
-
-## Getting Started
-
-(Instructions to be added as the project progresses)
 
 ## Contributing
 
