@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Test;
 
 class ImageCropFilterTest {
@@ -27,18 +26,5 @@ class ImageCropFilterTest {
           assertThat(image.getWidth()).isEqualTo(expectedCroppedImage.getWidth());
           assertThat(image.getHeight()).isEqualTo(expectedCroppedImage.getHeight());
         });
-  }
-
-  @Test
-  void foo() throws IOException {
-    // given
-    BufferedImage inputImage = loadImageFromClasspath("/rappi_colombia.jpeg");
-
-    // when
-    BufferedImage croppedImage = new ImageCropFilter(0.19, 0.19).apply(inputImage);
-
-    // then
-    ImageIO.write(croppedImage, "JPEG", new java.io.File(
-        "/Users/gustavo.rodriguezl/src/garodriguezlp/irimo/rappi_colombia_cropped.jpg"));
   }
 }
