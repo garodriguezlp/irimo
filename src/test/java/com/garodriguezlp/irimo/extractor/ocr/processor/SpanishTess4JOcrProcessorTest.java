@@ -48,8 +48,7 @@ class SpanishTess4JOcrProcessorTest {
             Recibiste de +$5.115.298,00
             Bancolombia
             13 sep - 17:19
-            Agregaste dineroa  +$1.000.000,00
-            """);
+            Agregaste dineroa  +$1.000.000,00""");
   }
 
 }

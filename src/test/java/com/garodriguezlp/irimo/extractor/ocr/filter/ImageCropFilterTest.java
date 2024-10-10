@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Test;
 
 class ImageCropFilterTest {
@@ -12,11 +13,11 @@ class ImageCropFilterTest {
   @Test
   void testApplyShouldCropImageCorrectly() throws IOException {
     // given
-    BufferedImage inputImage = loadImageFromClasspath("/nu_colombia.jpeg");
-    BufferedImage expectedCroppedImage = loadImageFromClasspath("/nu_colombia_cropped.jpeg");
+    BufferedImage inputImage = loadImageFromClasspath("/rappi_colombia.jpeg");
+    BufferedImage expectedCroppedImage = loadImageFromClasspath("/rappi_colombia_cropped.jpeg");
 
     // when
-    BufferedImage croppedImage = new ImageCropFilter(0.18, 0.22).apply(inputImage);
+    BufferedImage croppedImage = new ImageCropFilter(0.19, 0.19).apply(inputImage);
 
     // then
     // @todo: Improve image assertion beyond just comparing the dimensions
@@ -26,5 +27,18 @@ class ImageCropFilterTest {
           assertThat(image.getWidth()).isEqualTo(expectedCroppedImage.getWidth());
           assertThat(image.getHeight()).isEqualTo(expectedCroppedImage.getHeight());
         });
+  }
+
+  @Test
+  void foo() throws IOException {
+    // given
+    BufferedImage inputImage = loadImageFromClasspath("/rappi_colombia.jpeg");
+
+    // when
+    BufferedImage croppedImage = new ImageCropFilter(0.19, 0.19).apply(inputImage);
+
+    // then
+    ImageIO.write(croppedImage, "JPEG", new java.io.File(
+        "/Users/gustavo.rodriguezl/src/garodriguezlp/irimo/rappi_colombia_cropped.jpg"));
   }
 }
