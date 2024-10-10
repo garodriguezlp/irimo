@@ -3,6 +3,8 @@ package com.garodriguezlp.irimo.extractor.ocr.processor;
 import com.garodriguezlp.irimo.extractor.ocr.exception.OcrProcessingException;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.TesseractException;
 import net.sourceforge.tess4j.util.LoadLibs;
@@ -29,7 +31,7 @@ public class SpanishTess4JOcrProcessor implements OcrProcessor {
     try {
       String result = tesseract.doOCR(image);
       LOGGER.debug("OCR process completed successfully");
-      return result;
+      return sanitizeOutput(result);
     } catch (TesseractException e) {
       throw new OcrProcessingException("OCR process failed", e);
     }
@@ -39,5 +41,15 @@ public class SpanishTess4JOcrProcessor implements OcrProcessor {
     File tessDataFolder = LoadLibs.extractTessResources(TESSDATA_RESOURCE_PATH);
     tesseract.setDatapath(tessDataFolder.getPath());
     tesseract.setLanguage("spa");
+    // net.sourceforge.tess4j.ITessAPI.TessPageSegMode
+//    tesseract.setPageSegMode(4);
+//    tesseract.setVariable("tessedit_char_whitelist", "0123456789.$");
+//    tesseract.setVariable("tessedit_char_blacklist", "%;]");
+  }
+
+  private String sanitizeOutput(String ocrOutput) {
+    return Arrays.stream(ocrOutput.split("\n"))
+        .filter(line -> !line.trim().isEmpty())
+        .collect(Collectors.joining("\n"));
   }
 }

@@ -11,16 +11,15 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 
 @SpringBootTest
 class NuColombiaOcrFinancialRecordExtractorTest {
 
-  private static final String INPUT_IMAGE = "nu_colombia_input.jpeg";
+  private static final String INPUT_IMAGE = "nu_colombia.jpeg";
 
   @Autowired
-  private OcrFinancialRecordExtractor nuColombiaOcrFinancialRecordExtractor;
+  private NuColombiaOcrFinancialRecordExtractor extractor;
 
   @Autowired
   private ResourceLoader resourceLoader;
@@ -31,7 +30,7 @@ class NuColombiaOcrFinancialRecordExtractorTest {
     File image = getInputImageFileFromResources(INPUT_IMAGE);
 
     // when
-    List<FinancialRecord> records = nuColombiaOcrFinancialRecordExtractor.extract(List.of(image));
+    List<FinancialRecord> records = extractor.extract(List.of(image));
 
     // then
     assertThat(records)

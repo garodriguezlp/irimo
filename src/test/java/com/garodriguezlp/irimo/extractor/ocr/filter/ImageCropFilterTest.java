@@ -5,26 +5,18 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class NuColombiaImageCropFilterTest {
-
-  private NuColombiaImageCropFilter filter;
-
-  @BeforeEach
-  void setUp() {
-    filter = new NuColombiaImageCropFilter();
-  }
+class ImageCropFilterTest {
 
   @Test
   void testApplyShouldCropImageCorrectly() throws IOException {
     // given
-    BufferedImage inputImage = loadImageFromClasspath("/nu_colombia_input.jpeg");
-    BufferedImage expectedCroppedImage = loadImageFromClasspath("/nu_colombia_cropped.jpeg");
+    BufferedImage inputImage = loadImageFromClasspath("/rappi_colombia.jpeg");
+    BufferedImage expectedCroppedImage = loadImageFromClasspath("/rappi_colombia_cropped.jpeg");
 
     // when
-    BufferedImage croppedImage = filter.apply(inputImage);
+    BufferedImage croppedImage = new ImageCropFilter(0.19, 0.19).apply(inputImage);
 
     // then
     // @todo: Improve image assertion beyond just comparing the dimensions
