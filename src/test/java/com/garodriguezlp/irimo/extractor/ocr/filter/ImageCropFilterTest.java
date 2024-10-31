@@ -4,7 +4,9 @@ import static com.garodriguezlp.irimo.util.ImageUtils.loadImageFromClasspath;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import javax.imageio.ImageIO;
 import org.junit.jupiter.api.Test;
 
 class ImageCropFilterTest {

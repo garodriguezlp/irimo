@@ -8,15 +8,23 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.services.textract.TextractClient;
-import software.amazon.awssdk.services.textract.model.*;
+import software.amazon.awssdk.services.textract.model.Block;
+import software.amazon.awssdk.services.textract.model.BlockType;
+import software.amazon.awssdk.services.textract.model.DetectDocumentTextRequest;
+import software.amazon.awssdk.services.textract.model.DetectDocumentTextResponse;
+import software.amazon.awssdk.services.textract.model.Document;
+import software.amazon.awssdk.services.textract.model.TextractException;
 
-@Service
 public class AWSTextractOcrProcessor implements OcrProcessor {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AWSTextractOcrProcessor.class);
+  private final float verticalSectionBreakThreshold;
+
+  public AWSTextractOcrProcessor(float verticalSectionBreakThreshold) {
+    this.verticalSectionBreakThreshold = verticalSectionBreakThreshold;
+  }
 
   @Override
   public String performOcr(BufferedImage image) {
@@ -47,11 +55,24 @@ public class AWSTextractOcrProcessor implements OcrProcessor {
 
   private String extractTextFromBlocks(List<Block> blocks) {
     StringBuilder extractedText = new StringBuilder();
+    float lastTop = 0f;
+    float currentTop;
+
     for (Block block : blocks) {
-      if (block.blockType() == BlockType.LINE) {
+      if (block.blockType() == BlockType.LINE && block.confidence() >= 90) {
+        currentTop = block.geometry().boundingBox().top();
+        float verticalDistance = currentTop - lastTop;
+
+        LOGGER.trace("Vertical distance: {}, current text: {}", verticalDistance, block.text());
+        if (verticalDistance > verticalSectionBreakThreshold) {
+          extractedText.append("\n");
+        }
+
         extractedText.append(block.text()).append("\n");
+        lastTop = currentTop;
       }
     }
+
     return extractedText.toString();
   }
 }

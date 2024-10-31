@@ -38,7 +38,7 @@ class RappiColombiaOcrFinancialRecordExtractorTest {
         .containsExactlyInAnyOrder(
             new FinancialRecord(LocalDate.parse("2024-10-09"), "Mercadopago Colombia L", new BigDecimal("79900"), "Rappi"),
             new FinancialRecord(LocalDate.parse("2024-10-09"), "Mercadopago", new BigDecimal("86000"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-09"), "Pago Con Pse e", new BigDecimal("-1337971"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-09"), "Pago Con Pse", new BigDecimal("-1337971"), "Rappi"),
             new FinancialRecord(LocalDate.parse("2024-10-07"), "Rappi - Chevignon, Jardin Pla...", new BigDecimal("140150"), "Rappi"),
             new FinancialRecord(LocalDate.parse("2024-10-07"), "Tienda De Maskotas Esp", new BigDecimal("781000"), "Rappi"),
             new FinancialRecord(LocalDate.parse("2024-10-06"), "Estacion De Servicio", new BigDecimal("177371"), "Rappi"),

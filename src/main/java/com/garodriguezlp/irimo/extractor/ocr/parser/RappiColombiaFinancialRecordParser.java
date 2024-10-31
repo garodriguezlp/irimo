@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
@@ -34,6 +35,7 @@ public class RappiColombiaFinancialRecordParser implements FinancialRecordParser
       List<List<String>> rawRecords = breakIntoChunks(input);
       return rawRecords.stream()
           .map(RappiColombiaFinancialRecordParser::createFinancialRecord)
+          .flatMap(Optional::stream)
           .toList();
     } catch (Exception e) {
       throw new FinancialRecordParsingException("Failed to parse financial records from OCR data",
@@ -41,12 +43,18 @@ public class RappiColombiaFinancialRecordParser implements FinancialRecordParser
     }
   }
 
-  private static FinancialRecord createFinancialRecord(List<String> rawRecord) {
+  private static Optional<FinancialRecord> createFinancialRecord(List<String> rawRecord) {
     String joinedRecord = String.join(" ", rawRecord);
     String description = extractDescription(joinedRecord);
     BigDecimal amount = extractAmount(joinedRecord);
     LocalDate date = extractDate(joinedRecord);
-    return new FinancialRecord(date, description, amount, SOURCE);
+
+    if (description.isEmpty() || amount.equals(BigDecimal.ZERO) || date == null) {
+      LOGGER.warn("Failed to parse financial record: {}", joinedRecord);
+      return Optional.empty();
+    }
+
+    return Optional.of(new FinancialRecord(date, description, amount, SOURCE));
   }
 
   public static String extractDescription(String rawRecord) {
@@ -82,40 +90,20 @@ public class RappiColombiaFinancialRecordParser implements FinancialRecordParser
     List<String> currentBucket = new ArrayList<>();
     rawRecords.add(currentBucket);
 
-    for (int i = 0; i < lines.length; i++) {
-      String line = lines[i].trim();
-      currentBucket.add(line);
+    for (String line : lines) {
+      line = line.trim();
 
-      if (isDateLine(line)) {
-        boolean isThereAnotherLine = i + 1 < lines.length;
-        if (isThereAnotherLine && (containsAmount(lines[i + 1]) || lines[i + 1].contains(
-            "Pending"))) {
-          currentBucket.add(lines[i + 1].trim());
-          // @todo: improve
-          i++;
-        }
+      if (line.isEmpty()) {
         currentBucket = new ArrayList<>();
         rawRecords.add(currentBucket);
+      } else {
+        currentBucket.add(line);
       }
     }
 
-    // Remove any empty buckets
     rawRecords.removeIf(List::isEmpty);
 
     return rawRecords;
   }
 
-  private static boolean isDateLine(String line) {
-    // Simple date pattern: day month year
-    return Pattern.compile("\\d{1,2}\\s+[A-Za-z]+\\s+\\d{4}").matcher(line).find();
-  }
-
-  private static boolean containsAmount(String line) {
-    // Check if the line starts with a monetary amount
-    // It can optionally start with a plus or minus sign
-    // The amount should be the only content on the line (excluding whitespace)
-    // Allow for thousands separators and decimal points
-    return Pattern.compile("^\\s*[+-]?\\s*\\$?\\d{1,3}([.,]\\d{3})*([.,]\\d{2})?\\s*$")
-        .matcher(line).find();
-  }
 }
