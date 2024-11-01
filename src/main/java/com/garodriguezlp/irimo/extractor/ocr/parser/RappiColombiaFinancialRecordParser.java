@@ -71,7 +71,7 @@ public class RappiColombiaFinancialRecordParser implements FinancialRecordParser
       String sign = matcher.group(1);
       String amountStr = matcher.group(2).replace(".", "").replace(",", ".");
       BigDecimal amount = new BigDecimal(amountStr);
-      return "-".equals(sign) ? amount.negate() : amount;
+      return "-".equals(sign) ? amount : amount.negate();
     }
     return BigDecimal.ZERO;
   }

@@ -7,7 +7,9 @@ import com.garodriguezlp.irimo.extractor.FinancialRecordExtractor;
 import com.garodriguezlp.irimo.formatter.FinancialRecordFormatter;
 import com.garodriguezlp.irimo.service.exception.FinancialRecordProcessingException;
 import java.io.File;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,7 +37,10 @@ public class FinancialRecordsConsolidationService {
 
     try {
       List<FinancialRecord> records = extractRecords(files, sourceId);
-      List<FormattedFinancialRecord> formattedRecords = formatRecords(records);
+      List<FinancialRecord> sortedRecords = records.stream()
+          .sorted(Comparator.comparing(FinancialRecord::date))
+          .toList();
+      List<FormattedFinancialRecord> formattedRecords = formatRecords(sortedRecords);
       exportRecords(formattedRecords, targetId);
     } catch (Exception e) {
       throw new FinancialRecordProcessingException(

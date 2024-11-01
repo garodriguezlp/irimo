@@ -30,14 +30,14 @@ class RappiColombiaFinancialRecordParserTest {
     assertThat(records)
         .hasSize(8)
         .containsExactlyInAnyOrder(
-            new FinancialRecord(LocalDate.parse("2024-10-09"), "Mercadopago Colombia L", new BigDecimal("79900"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-20"), "Mercadopago", new BigDecimal("86000"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-09"), "Pago Con Pse", new BigDecimal("-1337971"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-07"), "Rappi - Chevignon, Jardin Pla...", new BigDecimal("140150"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-07"), "Tienda De Maskotas Esp", new BigDecimal("781000"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-06"), "Estacion De Servicio", new BigDecimal("177371"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-05"), "Migatte", new BigDecimal("41600"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-05"), "Rappi - La Rebaja, Plus No 13 - ...", new BigDecimal("66050"), "Rappi")
+            new FinancialRecord(LocalDate.parse("2024-10-09"), "Mercadopago Colombia L", new BigDecimal("-79900"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-20"), "Mercadopago", new BigDecimal("-86000"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-09"), "Pago Con Pse", new BigDecimal("1337971"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-07"), "Rappi - Chevignon, Jardin Pla...", new BigDecimal("-140150"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-07"), "Tienda De Maskotas Esp", new BigDecimal("-781000"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-06"), "Estacion De Servicio", new BigDecimal("-177371"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-05"), "Migatte", new BigDecimal("-41600"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-05"), "Rappi - La Rebaja, Plus No 13 - ...", new BigDecimal("-66050"), "Rappi")
         );
   }
 
@@ -53,13 +53,13 @@ class RappiColombiaFinancialRecordParserTest {
     assertThat(records)
         .hasSize(7)
         .containsExactlyInAnyOrder(
-            new FinancialRecord(LocalDate.parse("2024-10-30"), "Pago Con Pse", new BigDecimal("-2397773.75"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-29"), "Rappi - Burritos & Co - Ingenio", new BigDecimal("30550"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-29"), "Rappi - Panaderia Paola (valle...", new BigDecimal("21950"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-27"), "Enterprise Rent A Car", new BigDecimal("420235.43"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-26"), "The Book Loft", new BigDecimal("373088.13"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-25"), "Sunoco", new BigDecimal("1"), "Rappi"),
-            new FinancialRecord(LocalDate.parse("2024-10-25"), "Alamo Rent A Car Rental", new BigDecimal("501222.91"), "Rappi")
+            new FinancialRecord(LocalDate.parse("2024-10-30"), "Pago Con Pse", new BigDecimal("2397773.75"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-29"), "Rappi - Burritos & Co - Ingenio", new BigDecimal("-30550"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-29"), "Rappi - Panaderia Paola (valle...", new BigDecimal("-21950"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-27"), "Enterprise Rent A Car", new BigDecimal("-420235.43"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-26"), "The Book Loft", new BigDecimal("-373088.13"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-25"), "Sunoco", new BigDecimal("-1"), "Rappi"),
+            new FinancialRecord(LocalDate.parse("2024-10-25"), "Alamo Rent A Car Rental", new BigDecimal("-501222.91"), "Rappi")
         );
   }
 

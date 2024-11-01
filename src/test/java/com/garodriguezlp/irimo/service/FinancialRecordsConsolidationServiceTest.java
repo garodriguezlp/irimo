@@ -50,12 +50,12 @@ class FinancialRecordsConsolidationServiceTest {
 
   private static String expectedOutput() {
     return """
-        10/02/2024	Agregaste dinero a Home Online Services	$102,500.00	Nu
-        09/30/2024	Recibiste de Bancolombia	$7,459,949.00	Nu
-        09/22/2024	Agregaste dinero a Home Online Services	$102,500.00	Nu
+        09/13/2024	Recibiste de Bancolombia	$5,115,298.00	Nu
         09/14/2024	Agregaste dineroa foo	$1,000,000.00	Nu
         09/14/2024	Agregaste dineroa Mi primera Cajita	$1,000,000.00	Nu
-        09/13/2024	Recibiste de Bancolombia	$5,115,298.00	Nu
+        09/22/2024	Agregaste dinero a Home Online Services	$102,500.00	Nu
+        09/30/2024	Recibiste de Bancolombia	$7,459,949.00	Nu
+        10/02/2024	Agregaste dinero a Home Online Services	$102,500.00	Nu
         """;
   }
 
