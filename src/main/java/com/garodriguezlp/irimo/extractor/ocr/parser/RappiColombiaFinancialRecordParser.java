@@ -32,9 +32,11 @@ public class RappiColombiaFinancialRecordParser implements FinancialRecordParser
   public List<FinancialRecord> extractRecords(String input) {
     try {
       LOGGER.debug("Parsing {} OCR data", SOURCE);
+      LOGGER.trace("Raw OCR data: {}", input);
       List<List<String>> rawRecords = breakIntoChunks(input);
       return rawRecords.stream()
           .map(RappiColombiaFinancialRecordParser::createFinancialRecord)
+          .peek(record -> LOGGER.trace("Parsed financial record: {}", record))
           .flatMap(Optional::stream)
           .toList();
     } catch (Exception e) {

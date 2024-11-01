@@ -59,11 +59,12 @@ public class AWSTextractOcrProcessor implements OcrProcessor {
     float currentTop;
 
     for (Block block : blocks) {
-      if (block.blockType() == BlockType.LINE && block.confidence() >= 90) {
+      if (block.blockType() == BlockType.LINE && block.confidence() >= 93) {
         currentTop = block.geometry().boundingBox().top();
         float verticalDistance = currentTop - lastTop;
 
-        LOGGER.trace("Vertical distance: {}, current text: {}", verticalDistance, block.text());
+        LOGGER.trace("Vertical distance: {}, current text: {}, confidence: {}", verticalDistance,
+        block.text(), block.confidence());
         if (verticalDistance > verticalSectionBreakThreshold) {
           extractedText.append("\n");
         }

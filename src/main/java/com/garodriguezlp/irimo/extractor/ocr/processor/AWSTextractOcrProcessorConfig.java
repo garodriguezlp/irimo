@@ -8,7 +8,7 @@ public class AWSTextractOcrProcessorConfig {
 
   @Bean
   public AWSTextractOcrProcessor rappiAWSTextractOcrProcessor() {
-    return new AWSTextractOcrProcessor(0.088f);
+    return new AWSTextractOcrProcessor(0.078f);
   }
 
   @Bean
