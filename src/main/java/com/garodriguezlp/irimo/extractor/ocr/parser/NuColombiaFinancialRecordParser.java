@@ -6,9 +6,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.slf4j.Logger;
@@ -36,54 +36,56 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
   public List<FinancialRecord> extractRecords(String input) {
     try {
       LOGGER.debug("Parsing {} OCR data", SOURCE);
-      String sanitizedInput = sanitizeInput(input);
-      List<List<String>> rawRecords = breakIntoChunks(sanitizedInput);
+      List<List<String>> rawRecords = breakIntoChunks(input);
       return rawRecords.stream()
           .map(NuColombiaFinancialRecordParser::createFinancialRecord)
-          .filter(this::isComplete)
+          .peek(record -> LOGGER.trace("Parsed financial record: {}", record))
+          .flatMap(Optional::stream)
           .toList();
     } catch (Exception e) {
       throw new FinancialRecordParsingException("Failed to parse financial records from OCR data", e);
     }
   }
 
-  private static String sanitizeInput(String input) {
-    String[] lines = input.split("\n");
-    for (int currentRow = 0; currentRow < lines.length; currentRow++) {
-      if (lines[currentRow].contains("$")) {
-        return String.join("\n", Arrays.copyOfRange(lines, currentRow, lines.length));
-      }
-    }
-    return "";
-  }
-
-  private static List<List<String>> breakIntoChunks(String sanitizedInput) {
+  // @todo: remove duplicate code
+  public static List<List<String>> breakIntoChunks(String input) {
+    String[] lines = input.trim().split("\n");
     List<List<String>> rawRecords = new ArrayList<>();
-    List<String> currentRecord = new ArrayList<>();
+    List<String> currentBucket = new ArrayList<>();
+    rawRecords.add(currentBucket);
 
-    for (String line : sanitizedInput.split("\n")) {
-      if (line.contains("$")) {
-        currentRecord = new ArrayList<>();
-        rawRecords.add(currentRecord);
-        currentRecord.add(line.trim());
+    for (String line : lines) {
+      line = line.trim();
+
+      if (line.isEmpty()) {
+        currentBucket = new ArrayList<>();
+        rawRecords.add(currentBucket);
       } else {
-        currentRecord.add(line.trim());
+        currentBucket.add(line);
       }
     }
+
+    rawRecords.removeIf(List::isEmpty);
 
     return rawRecords;
   }
 
-  private static FinancialRecord createFinancialRecord(List<String> rawRecord) {
-    BigDecimal amount = extractAmount(rawRecord);
-    LocalDate date = extractDate(rawRecord);
-    String description = extractDescription(rawRecord);
-    return new FinancialRecord(date, description, amount, SOURCE);
+  private static Optional<FinancialRecord> createFinancialRecord(List<String> rawRecord) {
+    String joinedRecord = String.join(" ", rawRecord);
+    BigDecimal amount = extractAmount(joinedRecord);
+    LocalDate date = extractDate(joinedRecord);
+    String description = extractDescription(joinedRecord);
+
+    if (description.isEmpty() || amount.equals(BigDecimal.ZERO) || date == null) {
+      LOGGER.warn("Failed to parse financial record: {}", joinedRecord);
+      return Optional.empty();
+    }
+
+    return Optional.of(new FinancialRecord(date, description, amount, SOURCE));
   }
 
-  private static BigDecimal extractAmount(List<String> rawRecord) {
-    String amountLine = rawRecord.get(0);
-    Matcher matcher = AMOUNT_PATTERN.matcher(amountLine);
+  private static BigDecimal extractAmount(String rawRecord) {
+    Matcher matcher = AMOUNT_PATTERN.matcher(rawRecord);
     if (matcher.find()) {
       String amountStr = matcher.group(1).replace("$", "").replace(".", "").replace(",", ".");
       return new BigDecimal(amountStr);
@@ -91,9 +93,8 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
     return BigDecimal.ZERO;
   }
 
-  private static LocalDate extractDate(List<String> rawRecord) {
-    String dateLine = rawRecord.get(rawRecord.size() - 1);
-    Matcher matcher = DATE_PATTERN.matcher(dateLine);
+  private static LocalDate extractDate(String rawRecord) {
+    Matcher matcher = DATE_PATTERN.matcher(rawRecord);
     if (matcher.find()) {
       String dateStr =
           matcher.group(1) + ES_CO_SHORT_MONTH_SUFFIX + " " + LocalDate.now().getYear();
@@ -102,34 +103,17 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
     return null;
   }
 
-  private static String extractDescription(List<String> rawRecord) {
-    int descriptionEndIndex = rawRecord.size() == 1 ? 1 : rawRecord.size() - 1;
-    List<String> descriptionLines = rawRecord.subList(0, descriptionEndIndex);
+  private static String extractDescription(String rawRecord) {
+    Matcher amountMatcher = AMOUNT_PATTERN.matcher(rawRecord);
+    String descriptionWithoutAmount = amountMatcher.replaceAll("");
 
-    String joinedDescription = String.join(" ", descriptionLines);
+    Matcher dateMatcher = DATE_PATTERN.matcher(descriptionWithoutAmount);
+    String descriptionWithoutDateAndAmount = dateMatcher.replaceAll("");
 
-    Matcher matcher = AMOUNT_PATTERN.matcher(joinedDescription);
-    String descriptionWithoutAmount = matcher.replaceAll("");
-
-    return descriptionWithoutAmount
+    return descriptionWithoutDateAndAmount
         .replaceAll(UNWANTED_CHARS_REGEX, "")
         .replaceAll(MULTIPLE_WHITESPACE_REGEX, " ")
         .trim();
   }
 
-  private boolean isComplete(FinancialRecord financialRecord) {
-    if (financialRecord.date() == null) {
-      LOGGER.warn("Record dropped due to missing date: {}", financialRecord);
-      return false;
-    }
-    if (financialRecord.description() == null || financialRecord.description().isEmpty()) {
-      LOGGER.warn("Record dropped due to missing description: {}", financialRecord);
-      return false;
-    }
-    if (financialRecord.amount() == null) {
-      LOGGER.warn("Record dropped due to missing amount: {}", financialRecord);
-      return false;
-    }
-    return true;
-  }
 }

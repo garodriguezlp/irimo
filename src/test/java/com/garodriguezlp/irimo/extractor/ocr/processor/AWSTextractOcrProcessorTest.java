@@ -13,7 +13,7 @@ class AWSTextractOcrProcessorTest {
   @Test
   void testOcrExtractionFromNuColombiaImage() throws IOException {
     // given
-    BufferedImage image = loadImageFromClasspath("/nu_colombia.jpeg");
+    BufferedImage image = loadImageFromClasspath("/nu_colombia_cropped.jpeg");
 
     // when
     String result = new AWSTextractOcrProcessor(0.058f).performOcr(image);
@@ -54,10 +54,6 @@ class AWSTextractOcrProcessorTest {
 
   private static String expectedTextOnNuImage() {
     return """
-        ?
-
-        Buscar movimiento
-
         Agregaste dinero a
         +$102.500,00
         Home Online Services

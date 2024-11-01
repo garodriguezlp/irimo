@@ -3,7 +3,7 @@ package com.garodriguezlp.irimo.extractor.ocr;
 import com.garodriguezlp.irimo.extractor.ocr.filter.ImageFilter;
 import com.garodriguezlp.irimo.extractor.ocr.filter.ImageFilterPipeline;
 import com.garodriguezlp.irimo.extractor.ocr.parser.NuColombiaFinancialRecordParser;
-import com.garodriguezlp.irimo.extractor.ocr.processor.SpanishTess4JOcrProcessor;
+import com.garodriguezlp.irimo.extractor.ocr.processor.AWSTextractOcrProcessor;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +12,11 @@ public class NuColombiaOcrFinancialRecordExtractor extends OcrFinancialRecordExt
 
   public NuColombiaOcrFinancialRecordExtractor(
       ImageFilter nuColombiaImageCropFilter,
-      SpanishTess4JOcrProcessor ocrProcessor,
+      AWSTextractOcrProcessor nuAWSTextractOcrProcessor,
       NuColombiaFinancialRecordParser parser) {
     super(
         new ImageFilterPipeline(List.of(nuColombiaImageCropFilter)),
-        ocrProcessor,
+        nuAWSTextractOcrProcessor,
         parser);
   }
 

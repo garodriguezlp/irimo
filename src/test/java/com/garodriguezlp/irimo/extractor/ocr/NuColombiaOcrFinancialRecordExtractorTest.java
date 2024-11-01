@@ -39,8 +39,8 @@ class NuColombiaOcrFinancialRecordExtractorTest {
             new FinancialRecord(LocalDate.parse("2024-10-02"), "Agregaste dinero a Home Online Services", new BigDecimal("102500.00"), "Nu"),
             new FinancialRecord(LocalDate.parse("2024-09-30"), "Recibiste de Bancolombia", new BigDecimal("7459949.00"), "Nu"),
             new FinancialRecord(LocalDate.parse("2024-09-22"), "Agregaste dinero a Home Online Services", new BigDecimal("102500.00"), "Nu"),
-            new FinancialRecord(LocalDate.parse("2024-09-14"), "Agregaste dineroa foo", new BigDecimal("1000000.00"), "Nu"),
-            new FinancialRecord(LocalDate.parse("2024-09-14"), "Agregaste dineroa Mi primera Cajita", new BigDecimal("1000000.00"), "Nu"),
+            new FinancialRecord(LocalDate.parse("2024-09-14"), "Agregaste dinero a foo", new BigDecimal("1000000.00"), "Nu"),
+            new FinancialRecord(LocalDate.parse("2024-09-14"), "Agregaste dinero a Mi primera Cajita", new BigDecimal("1000000.00"), "Nu"),
             new FinancialRecord(LocalDate.parse("2024-09-13"), "Recibiste de Bancolombia", new BigDecimal("5115298.00"), "Nu"));
   }
 

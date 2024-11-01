@@ -8,7 +8,7 @@ public class ImageCropFilterConfig {
 
   @Bean
   public ImageFilter nuColombiaImageCropFilter() {
-    return new ImageCropFilter(0.18, 0);
+    return new ImageCropFilter(0.18, 0.20);
   }
 
   @Bean
