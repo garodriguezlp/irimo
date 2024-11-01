@@ -128,7 +128,6 @@ class AWSTextractOcrProcessorTest {
 
         Rappi - La Rebaja, Plus No 13 - ... $66.050
         5 Oct 2024 19:52
-        + $660,50
         """;
   }
 
@@ -141,7 +140,6 @@ class AWSTextractOcrProcessorTest {
         Rappi - Burritos & Co - Ingenio
         $30.550
         29 Oct 2024 19:08
-        + $305,50
 
         Rappi - Panaderia Paola (valle...
         $21.950
