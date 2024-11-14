@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "com.garodriguezlp"
-version = "0.0.2-SNAPSHOT"
+version = "0.0.2"
 
 java {
     toolchain {
@@ -69,13 +69,13 @@ tasks.named<ProcessResources>("processResources") {
 
 publishing {
     publications {
-        create<MavenPublication>("bootJava") {
+        create<MavenPublication>("bootJar") {
             artifact(tasks.named("bootJar"))
         }
     }
     repositories {
         maven {
-            name = "stagingLocal"
+            name = "stagingDeploy"
             url = uri(layout.buildDirectory.dir("staging-deploy").get().asFile)
         }
     }

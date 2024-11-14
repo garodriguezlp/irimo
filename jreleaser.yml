@@ -1,27 +1,21 @@
 project:
   name: irimo
-  version: 0.0.1
-  description: CLI tool for transforming personal financial data
+  description: CLI tool for consolidating personal financial data
+  links:
+    homepage: https://github.com/{{projectOwner}}/{{projectName}}
   authors:
     - Gustavo Rodriguez
   license: AGPL-3.0-only
+  inceptionYear: 2024
+  stereotype: cli
   java:
     groupId: com.garodriguezlp
     version: 17
     mainClass: org.springframework.boot.loader.launch.JarLauncher
-    multiProject: false
-  inceptionYear: 2024
-  links:
-    homepage: https://github.com/{{projectOwner}}/{{projectName}}
-    documentation: https://github.com/{{projectOwner}}/{{projectName}}/wiki
 
 distributions:
   irimo:
     type: SINGLE_JAR
-    stereotype: CLI
-    tags:
-      - cli
-      - irimo
     artifacts:
       - path: build/libs/{{distributionName}}-{{projectVersion}}.jar
 
@@ -30,26 +24,19 @@ packagers:
     active: ALWAYS
     repository:
       active: ALWAYS
-      owner: garodriguezlp
-      tagName: '{{distributionName}}-{{tagName}}'
     extraProperties:
       skipLicenseFile: true
 
 release:
   github:
-    skipRelease: false
-    skipTag: false
-    username: garodriguezlp
+    overwrite: true
+    owner: garodriguezlp
 
 deploy:
   maven:
-    pomchecker:
-      failOnError: true
-      failOnWarning: true
     github:
-      app:
-        active: ALWAYS
+      irimo:
+        active: RELEASE
         url: https://maven.pkg.github.com/garodriguezlp/irimo
-        username: garodriguezlp
         stagingRepositories:
           - build/staging-deploy
