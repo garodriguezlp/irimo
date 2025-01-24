@@ -1,0 +1,16 @@
+application:
+  version: ${version}
+
+spring:
+  application:
+    name: irimo
+  main:
+    banner-mode: off
+
+logging:
+  pattern.console: "%msg%n"
+  level:
+    root: info
+    picocli.spring: off
+    com.github.garodriguezlp.irimo: info
+    com.github.garodriguezlp.irimo.IrimoApplication: off

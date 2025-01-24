@@ -1,0 +1,37 @@
+project:
+  name: irimo
+  description: CLI tool for consolidating personal financial data
+  links:
+    homepage: https://github.com/{{projectOwner}}/{{projectName}}
+  authors:
+    - Gustavo Rodriguez
+  license: AGPL-3.0-only
+  inceptionYear: "2024"
+  stereotype: CLI
+  languages:
+    java:
+      groupId: com.github.garodriguezlp
+      version: "17"
+      mainClass: org.springframework.boot.loader.launch.JarLauncher
+
+environment:
+  variables: build/processedResources/jreleaser/config.properties
+
+distributions:
+  irimo:
+    type: SINGLE_JAR
+    artifacts:
+      - path: build/libs/{{distributionName}}-{{projectVersion}}.jar
+
+packagers:
+  jbang:
+    active: ALWAYS
+    repository:
+      active: ALWAYS
+    extraProperties:
+      skipLicenseFile: true
+
+release:
+  github:
+    overwrite: true
+    owner: garodriguezlp
