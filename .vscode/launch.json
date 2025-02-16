@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "IrimoApplication",
+            "request": "launch",
+            "mainClass": "com.github.garodriguezlp.irimo.IrimoApplication",
+            "projectName": "irimo",
+            "args": "-s nu ${cwd}/src/test/resources/nu_colombia.jpeg"
+        }
+    ]
+}
