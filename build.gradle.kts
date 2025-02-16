@@ -53,3 +53,11 @@ tasks.register<Copy>("processJReleaserResources") {
 tasks.named("processResources") {
     dependsOn("processJReleaserResources")
 }
+
+publishing {
+    publications {
+        create<MavenPublication>("bootJava") {
+            artifact(tasks.named("bootJar"))
+        }
+    }
+}
