@@ -3,11 +3,18 @@
     "configurations": [
         {
             "type": "java",
-            "name": "IrimoApplication",
+            "name": "Launch IrimoApplication",
             "request": "launch",
             "mainClass": "com.github.garodriguezlp.irimo.IrimoApplication",
             "projectName": "irimo",
             "args": "-s nu ${cwd}/src/test/resources/nu_colombia.jpeg"
+        },
+        {
+            "type": "java",
+            "name": "Attach to IrimoApplication",
+            "request": "attach",
+            "hostName": "localhost",
+            "port": 4004
         }
     ]
 }

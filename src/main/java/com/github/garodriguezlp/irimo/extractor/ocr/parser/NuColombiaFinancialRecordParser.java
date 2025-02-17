@@ -26,9 +26,8 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
   private static final Pattern DATE_PATTERN = Pattern.compile(
       "(\\d{2} [a-z]{3}) - (\\d{2}:\\d{2})");
   private static final String ES_CO_SHORT_MONTH_SUFFIX = ".";
-  private static final Locale COLOMBIA_LOCALE = Locale.forLanguageTag("es-CO");
-  private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd MMM yyyy",
-      COLOMBIA_LOCALE);
+  // private static final Locale COLOMBIA_LOCALE = Locale.forLanguageTag("es-CO");
+  private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("es", "CO"));
   private static final String UNWANTED_CHARS_REGEX = "[^a-zA-Z0-9\\s]";
   private static final String MULTIPLE_WHITESPACE_REGEX = "\\s+";
 
