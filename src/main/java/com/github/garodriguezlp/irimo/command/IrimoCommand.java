@@ -37,7 +37,7 @@ public class IrimoCommand implements Callable<Integer> {
       defaultValue = "clipboard")
   private String target;
 
-  @Parameters(index = "0..*", description = "Input files to process")
+  @Parameters(index = "0..*", description = "Input files to process", arity = "1..*")
   private List<File> files;
 
   public IrimoCommand(FinancialRecordsConsolidationService service) {
