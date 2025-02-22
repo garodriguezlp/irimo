@@ -34,7 +34,7 @@ public class IrimoCommand implements Callable<Integer> {
       names = {"-t", "--target"},
       description = "Target identifier for exporting the records",
       required = true,
-      defaultValue = "clipboard")
+      defaultValue = "csv")
   private String target;
 
   @Parameters(index = "0..*", description = "Input files to process", arity = "1..*")
