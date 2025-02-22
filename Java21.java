@@ -1,4 +1,4 @@
-/// usr/bin/env jbang "$0" "$@" ; exit $?
+///usr/bin/env jbang "$0" "$@" ; exit $?
 
 //JAVA 21
 
@@ -12,7 +12,7 @@ public class Java21 {
 
     public static void main(String... args) {
 
-        String dateString1 = "25 dic. 2024"; // With period
+        String dateString1 = "21 dic. 2024"; // With period
         String dateString2 = "25 dic 2024"; // Without period
 
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()

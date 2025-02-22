@@ -5,6 +5,7 @@ import com.github.garodriguezlp.irimo.extractor.ocr.exception.FinancialRecordPar
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -26,8 +27,7 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
   private static final Pattern DATE_PATTERN = Pattern.compile(
       "(\\d{2} [a-z]{3}) - (\\d{2}:\\d{2})");
   private static final String ES_CO_SHORT_MONTH_SUFFIX = ".";
-  // private static final Locale COLOMBIA_LOCALE = Locale.forLanguageTag("es-CO");
-  private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd MMMM yyyy", new Locale("es", "CO"));
+  private static final DateTimeFormatter DATE_FORMATTER = buildEsCoDateFormatter();
   private static final String UNWANTED_CHARS_REGEX = "[^a-zA-Z0-9\\s]";
   private static final String MULTIPLE_WHITESPACE_REGEX = "\\s+";
 
@@ -113,6 +113,16 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
         .replaceAll(UNWANTED_CHARS_REGEX, "")
         .replaceAll(MULTIPLE_WHITESPACE_REGEX, " ")
         .trim();
+  }
+
+  private static DateTimeFormatter buildEsCoDateFormatter() {
+    return new DateTimeFormatterBuilder()
+        .appendPattern("dd MMM")
+        .optionalStart()
+        .appendLiteral(".")
+        .optionalEnd()
+        .appendPattern(" yyyy")
+        .toFormatter(new Locale("es", "CO"));
   }
 
 }
