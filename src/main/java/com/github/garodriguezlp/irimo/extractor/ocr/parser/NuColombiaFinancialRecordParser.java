@@ -1,12 +1,13 @@
 package com.github.garodriguezlp.irimo.extractor.ocr.parser;
 
+import static com.github.garodriguezlp.irimo.extractor.ocr.parser.util.TextChunkSplitter.splitIntoChunksByEmptyLines;
+
 import com.github.garodriguezlp.irimo.domain.FinancialRecord;
 import com.github.garodriguezlp.irimo.extractor.ocr.exception.FinancialRecordParsingException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -35,7 +36,7 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
   public List<FinancialRecord> extractRecords(String input) {
     try {
       LOGGER.debug("Parsing {} OCR data", SOURCE);
-      List<List<String>> rawRecords = breakIntoChunks(input);
+      List<List<String>> rawRecords = splitIntoChunksByEmptyLines(input);
       return rawRecords.stream()
           .map(NuColombiaFinancialRecordParser::createFinancialRecord)
           .peek(record -> LOGGER.trace("Parsed financial record: {}", record))
@@ -44,29 +45,6 @@ public class NuColombiaFinancialRecordParser implements FinancialRecordParser {
     } catch (Exception e) {
       throw new FinancialRecordParsingException("Failed to parse financial records from OCR data", e);
     }
-  }
-
-  // @todo: remove duplicate code
-  public static List<List<String>> breakIntoChunks(String input) {
-    String[] lines = input.trim().split("\n");
-    List<List<String>> rawRecords = new ArrayList<>();
-    List<String> currentBucket = new ArrayList<>();
-    rawRecords.add(currentBucket);
-
-    for (String line : lines) {
-      line = line.trim();
-
-      if (line.isEmpty()) {
-        currentBucket = new ArrayList<>();
-        rawRecords.add(currentBucket);
-      } else {
-        currentBucket.add(line);
-      }
-    }
-
-    rawRecords.removeIf(List::isEmpty);
-
-    return rawRecords;
   }
 
   private static Optional<FinancialRecord> createFinancialRecord(List<String> rawRecord) {

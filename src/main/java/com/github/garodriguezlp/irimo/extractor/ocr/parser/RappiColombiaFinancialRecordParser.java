@@ -1,12 +1,15 @@
 package com.github.garodriguezlp.irimo.extractor.ocr.parser;
 
+import static com.github.garodriguezlp.irimo.extractor.ocr.parser.util.TextChunkSplitter.splitIntoChunksByEmptyLines;
+
 import com.github.garodriguezlp.irimo.domain.FinancialRecord;
 import com.github.garodriguezlp.irimo.extractor.ocr.exception.FinancialRecordParsingException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,14 +29,14 @@ public class RappiColombiaFinancialRecordParser implements FinancialRecordParser
   private static final Pattern AMOUNT_PATTERN = Pattern.compile("([+-]?)\\$([\\d.,]+)");
   private static final Pattern DATE_PATTERN = Pattern.compile(
       "(\\d{1,2}\\s+[A-Za-z]{3}\\s+\\d{4})");
-  private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("d MMM yyyy");
+  private static final DateTimeFormatter DATE_FORMATTER = buildCaseInsensitiveUsFormatter();
 
   @Override
   public List<FinancialRecord> extractRecords(String input) {
     try {
       LOGGER.debug("Parsing {} OCR data", SOURCE);
       LOGGER.trace("Raw OCR data: {}", input);
-      List<List<String>> rawRecords = breakIntoChunks(input);
+      List<List<String>> rawRecords = splitIntoChunksByEmptyLines(input);
       return rawRecords.stream()
           .map(RappiColombiaFinancialRecordParser::createFinancialRecord)
           .peek(record -> LOGGER.trace("Parsed financial record: {}", record))
@@ -86,26 +89,11 @@ public class RappiColombiaFinancialRecordParser implements FinancialRecordParser
     return null;
   }
 
-  public static List<List<String>> breakIntoChunks(String input) {
-    String[] lines = input.trim().split("\n");
-    List<List<String>> rawRecords = new ArrayList<>();
-    List<String> currentBucket = new ArrayList<>();
-    rawRecords.add(currentBucket);
-
-    for (String line : lines) {
-      line = line.trim();
-
-      if (line.isEmpty()) {
-        currentBucket = new ArrayList<>();
-        rawRecords.add(currentBucket);
-      } else {
-        currentBucket.add(line);
-      }
-    }
-
-    rawRecords.removeIf(List::isEmpty);
-
-    return rawRecords;
+  static DateTimeFormatter buildCaseInsensitiveUsFormatter() {
+    return new DateTimeFormatterBuilder()
+        .parseCaseInsensitive()
+        .appendPattern("d MMM yyyy")
+        .toFormatter(Locale.US);
   }
 
 }
